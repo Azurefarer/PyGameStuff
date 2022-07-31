@@ -15,7 +15,7 @@ class EulerIntegrator:
         return x_1
 
 
-
+#4th order Runge Kutta integrator
 class RK4Integrator:
 
     def __init__(self, object):

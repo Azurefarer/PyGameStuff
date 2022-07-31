@@ -9,30 +9,28 @@ class System(Object):
 
     def set_state(self, x):
         
-        j = self.args[0].get_state_size()
-        for i in range(len(self.args)):
-            self.args[i].set_state(x[j-self.args[i].get_state_size():j])
-            j += self.args[i].get_state_size()
+        j = 0
+        for object in self.args:
+            object.set_state(x[j:j + object.get_state_size()])
+            j += object.get_state_size()
         
 
     def get_state(self):
-
         x = []
-        for i in range(len(self.args)):
-            for j in range(self.args[i].get_state_size()):
-                x.append(self.args[i].get_state()[j])
+        for object in self.args:
+            for j in range(object.get_state_size()):
+                x.append(object.get_state()[j])
         return np.array(x)
+
 
     def get_state_prime(self, x):
         k = 0
-        print(x)
-        x_dot = []
+        x_dot = np.array([])
         for object in self.args:
 
             state_slice = x[k:k + object.get_state_size()]
-            print(state_slice)
             object_state = object.get_state_prime(state_slice)
-            x_dot = x_dot + object_state
+            x_dot = np.concatenate((x_dot, object_state))
             k += object.get_state_size()
 
         return np.array(x_dot)

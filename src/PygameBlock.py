@@ -46,7 +46,7 @@ def main():
             dad.draw()
             dad.draw_data()
             pg.display.update()
-        print(a.get_energy(a.get_state()))
+
         counter += 1
 
     pg.quit()

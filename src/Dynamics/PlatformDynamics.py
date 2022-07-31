@@ -11,9 +11,9 @@ class Platform:
         self.mass = mass
         self.l = l
         self.w = w
-        self.x = x
+        self.xaxis = x
         self.x0 = x
-        self.y = y
+        self.yaxis = y
         self.y0 = y
         self.offset = offset
         self.theta = theta
@@ -29,13 +29,6 @@ class Platform:
         #right and left center of mass
         self.rcm = (l - 2 * offset) / 4
         self.lcm = (l + 2 * offset) / 4
-        #right and left offset ratio
-        self.rof = (l - 2 * offset) / (l * 2)
-        self.lof = (l + 2 * offset) / (l * 2)
-
-        self.data = [0]
-        self.data1 = [0]
-        self.data2 = [0]
 
 
     def set_state(self, s, torque):
@@ -79,3 +72,27 @@ class Platform:
         U = - self.offset * g * self.mass * np.sin(s[0])
 
         return E, E0, KE, KE0, U, U0
+
+
+    def get_state_size(self):
+        return 2
+
+    def get_axis(self):
+        return self.xaxis, self.yaxis
+
+    def get_length(self):
+        return self.l
+
+    def get_width(self):
+        return self.w
+
+    def get_offset(self):
+        return self.offset
+
+    def get_mass(self):
+        return self.mass
+
+    def get_color(self):
+        return self.color
+
+    
