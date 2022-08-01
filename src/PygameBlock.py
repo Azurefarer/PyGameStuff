@@ -4,6 +4,9 @@ import numpy as np
 from Dynamics.BlockDynamics import Block
 from MathTools.Integrator import RK4Integrator as RK4
 from DrawTools.Draw import *
+from DrawTools.DrawSystem import *
+from Dynamics.System import System
+from Game.Controls import *
 
 pg.init()
 
@@ -16,35 +19,38 @@ pg.display.set_caption("Block")
 def main():
     run = True
     clock = pg.time.Clock()
-    t = 0
 
+    #init objects, system, integrator, drawers, system drawer, and controller
     a = Block(20, 200, 50, 400, 0, (200, 200, 200))
-
-    rka = RK4(a)
-    rk = [rka, a]
+    system = System(a)
+    
+    rksystem = RK4(system)
 
     dad = DrawBlock(Win, a)
+    drawsystem = DrawSystem(dad)
 
+    ctrl = UIcontroller(a)
+
+    #frame rate and efficiency stuff
     counter = 0
     dt = 1/100
     max_count = 50
 
     while run:
-        
-        t += dt
-        
-        for event in pg.event.get():
-            if event.type == pg.QUIT:
-                run = False
 
-        #get state, integrate, set state
-        rk[1].set_state(rk[0].integrate(rk[1].get_state(), dt))
+        #get inputs to influence sim
+        ctrlr = ctrl.inputs()
+        if ctrlr == 0:
+            run = False
+
+        #entire dynamic integration process
+        system.set_state(rksystem.integrate(system.get_state(), dt))
 
         if counter % max_count == 0:
             clock.tick(60)
             Win.fill((10, 40, 70))
-            dad.draw()
-            dad.draw_data()
+            drawsystem.draw()
+            drawsystem.draw_data()
             pg.display.update()
 
         counter += 1
