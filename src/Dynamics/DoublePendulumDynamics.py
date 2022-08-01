@@ -19,18 +19,16 @@ class DblPendulum:
         self.state = [theta1, theta2, 0, 0]
         self.state0 = [theta1, theta2, 0, 0]
 
-
+    #methods for the integrator
     def set_state(self, x):
 
         self.state = x
-
 
     def get_state(self):
 
         x = np.array(self.state)
 
         return x
-
 
     def get_state_prime(self, x):
 
@@ -44,9 +42,7 @@ class DblPendulum:
 
         return x_dot
 
-    def get_state_size(self):
-        return 4
-
+    #inspector methods for drawing
     def get_energy(self, x):
 
         E0 = ((.5 * (self.m1 * (self.l1 * self.state0[2])**2 + self.m2 * ((self.l1 * self.state0[2])**2 + (self.l2 * self.state0[3])**2 + 2 * self.l1 * self.l2 * self.state0[2] * self.state0[3] * np.cos(self.state0[0] - self.state0[1])))
@@ -56,7 +52,6 @@ class DblPendulum:
              - g * ((self.m1 + self.m2) * self.l1 * np.cos(x[0]) + self.m2 * self.l2 * np.cos(x[1]))))
 
         return E, E0
-
 
     def get_axis(self):
         return self.xaxis, self.yaxis
@@ -70,6 +65,11 @@ class DblPendulum:
     def get_color(self):
         return self.color
 
+    #inspector method for the system
+    def get_state_size(self):
+        return 4
+    
+    #method for the controller
     def impulse(self, direction):
         pass
     

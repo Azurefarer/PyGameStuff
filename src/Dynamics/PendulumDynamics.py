@@ -15,18 +15,16 @@ class Pendulum:
         self.state = [theta, 0]
         self.state0 = [theta, 0]
         
-
+    #methods for the integrator
     def set_state(self, x):
 
         self.state = x
-
 
     def get_state(self):
 
         x = np.array(self.state)
 
         return x
-
 
     def get_state_prime(self, x):
 
@@ -36,8 +34,7 @@ class Pendulum:
 
         return x_dot
 
-
-
+    #inspector methods for drawing
     def get_energy(self, x):
 
         E0 = .5 * self.m * (self.state0[1] * self.l)**2 - g * self.m * self.l * np.cos(self.state0[0])
@@ -45,10 +42,6 @@ class Pendulum:
         E = .5 * self.m * (x[1] * self.l)**2 - g * self.m * self.l * np.cos(x[0])
 
         return E, E0
-
-
-    def get_state_size(self):
-        return 2
 
     def get_axis(self):
         return self.xaxis, self.yaxis
@@ -62,6 +55,11 @@ class Pendulum:
     def get_color(self):
         return self.color
 
+    #inspector method for the system
+    def get_state_size(self):
+        return 2
+        
+    #method for the controller
     def impulse(self, direction):
         pass
 

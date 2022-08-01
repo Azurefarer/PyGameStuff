@@ -31,7 +31,7 @@ class Platform:
         self.lcm = (l + 2 * offset) / 4
 
 
-    #methods for the integrator to use
+    #methods for the integrator
     def set_state(self, s):
         
         self.state = s
@@ -56,26 +56,25 @@ class Platform:
         
         return s_dot
 
-    #method to draw energy curves
+    #inspector methods for drawing
     def get_energy(self, s):
 
+        #total energy
         E0 = .5 * self.I * self.state0[1]**2 - self.offset * g * self.mass * np.sin(self.state0[0])
 
         E = .5 * self.I * s[1]**2 - self.offset * g * self.mass * np.sin(s[0])
 
+        #kinetic energy
         KE0 = .5 * self.I * self.state0[1]**2
 
         KE = .5 * self.I * s[1]**2
 
+        #potential energy
         U0 = - self.offset * g * self.mass * np.sin(self.state0[0])
 
         U = - self.offset * g * self.mass * np.sin(s[0])
 
         return E, E0, KE, KE0, U, U0
-
-    #inspector functions
-    def get_state_size(self):
-        return 2
 
     def get_axis(self):
         return self.xaxis, self.yaxis
@@ -95,7 +94,11 @@ class Platform:
     def get_color(self):
         return self.color
 
-    #method for UIcontrols
+    #inspector method for the system
+    def get_state_size(self):
+        return 2
+
+    #method for the controller
     def impulse(self, direction):
         force = 100000
         if direction:
