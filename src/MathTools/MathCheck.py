@@ -7,15 +7,7 @@ from abc import ABC, abstractmethod
 
 
 
-a = np.array([1, 2, 3])
+a = [0, 1, 2, 3]
 
+print(len(a))
 
-b = np.array([1, 2, 3])
-
-c = [2, 2, 3]
-
-d = [1, 2, 3]
-
-
-c = a
-print(c)

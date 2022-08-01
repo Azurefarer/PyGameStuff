@@ -8,6 +8,7 @@ from Dynamics.System import System
 from MathTools.Integrator import RK4Integrator as RK4
 from DrawTools.DrawSystem import *
 from DrawTools.Draw import *
+from Game.Controls import *
 
 pg.init()
 
@@ -24,28 +25,22 @@ def main():
     run = True
     clock = pg.time.Clock()
 
-    #init objects
+    #init objects, system, integrator, drawers, system drawer, and controller
     a = Pendulum(900, 300, 400, 1, np.deg2rad(90), (100, 200, 0))
     b = Block(1, 5, 5, 600, 0, (80, 75, 230))
     c = Platform(20, 300, 5, 300, 600, 70, np.deg2rad(0), (100, 100, 100))
     d = DblPendulum(900, 500, 200, 300, 1000, 10, np.deg2rad(180.1), np.deg2rad(180), (200, 200, 200))
-
-    #init system of objects
-
     system = System(a, b, c, d)
 
-    #init integrator for the system
     rksystem = RK4(system)
 
-    #init drawers
     da = PendulumDraw(Win, a)
     db = DrawBlock(Win, b)
     dc = DrawPlatform(Win, c)
     dd = DblPendulumDraw(Win, d)
- 
-    #init system drawing
-    drawsystem = DrawSystem(da, dd)
+    drawsystem = DrawSystem(da, db, dc, dd)
 
+    ctrl = UIcontroller(a, b, c, d)
 
     #frame rate and efficiency stuff
     counter = 0
@@ -54,11 +49,11 @@ def main():
 
     while run:
 
-        #press exit in top right
-        for event in pg.event.get():
-            if event.type == pg.QUIT:
-                run = False
-
+        #get inputs to influence sim
+        ctrlr = ctrl.inputs()
+        if ctrlr == 0:
+            run = False
+        
         #entire dynamic integration process
         system.set_state(rksystem.integrate(system.get_state(), dt))
 

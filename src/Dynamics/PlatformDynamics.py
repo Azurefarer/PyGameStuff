@@ -7,7 +7,8 @@ g = 9.8
 class Platform:
 
     def __init__(self, mass, l, w, x, y, offset, theta, color):
-
+        
+        #in kg and m
         self.mass = mass
         self.l = l
         self.w = w
@@ -16,10 +17,9 @@ class Platform:
         self.yaxis = y
         self.y0 = y
         self.offset = offset
-        self.theta = theta
-        self.theta0 = theta
-        self.theta_dot = 0
-        self.theta_dot0 = 0
+        self.state = [theta, 0]
+        self.state0 = [theta, 0]
+
         self.color = color
 
         self.torque = 0
@@ -31,16 +31,15 @@ class Platform:
         self.lcm = (l + 2 * offset) / 4
 
 
-    def set_state(self, s, torque):
-
-        self.theta = s[0]
-        self.theta_dot = s[1]
-        self.torque = torque
-
+    #methods for the integrator to use
+    def set_state(self, s):
+        
+        self.state = s
+        self.torque = 0
 
     def get_state(self):
 
-        s = np.array([self.theta, self.theta_dot])
+        s = np.array(self.state)
 
         return s
 
@@ -49,6 +48,7 @@ class Platform:
 
         #gravity acting on the center of mass
         taug = self.mass * g * self.offset
+
         #user input torque
         taup = self.torque
 
@@ -56,24 +56,24 @@ class Platform:
         
         return s_dot
 
-
+    #method to draw energy curves
     def get_energy(self, s):
 
-        E0 = .5 * self.I * self.theta_dot0**2 - self.offset * g * self.mass * np.sin(self.theta0)
+        E0 = .5 * self.I * self.state0[1]**2 - self.offset * g * self.mass * np.sin(self.state0[0])
 
         E = .5 * self.I * s[1]**2 - self.offset * g * self.mass * np.sin(s[0])
 
-        KE0 = .5 * self.I * self.theta_dot0**2
+        KE0 = .5 * self.I * self.state0[1]**2
 
         KE = .5 * self.I * s[1]**2
 
-        U0 = - self.offset * g * self.mass * np.sin(self.theta0)
+        U0 = - self.offset * g * self.mass * np.sin(self.state0[0])
 
         U = - self.offset * g * self.mass * np.sin(s[0])
 
         return E, E0, KE, KE0, U, U0
 
-
+    #inspector functions
     def get_state_size(self):
         return 2
 
@@ -95,4 +95,12 @@ class Platform:
     def get_color(self):
         return self.color
 
-    
+    #method for UIcontrols
+    def impulse(self, direction):
+        force = 100000
+        if direction:
+            force = force
+        else:
+            force = force * -1
+        #7500N*m for offset of 100mm
+        self.torque = force * self.rcm

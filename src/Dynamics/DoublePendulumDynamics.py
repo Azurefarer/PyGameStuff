@@ -69,3 +69,7 @@ class DblPendulum:
 
     def get_color(self):
         return self.color
+
+    def impulse(self, direction):
+        pass
+    

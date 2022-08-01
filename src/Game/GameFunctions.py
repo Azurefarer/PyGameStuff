@@ -40,3 +40,4 @@ class Inputs:
         except:
             #print("no inputs to return")
             return inputsFalse
+
