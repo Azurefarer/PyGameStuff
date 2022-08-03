@@ -4,6 +4,7 @@ from Dynamics.PlatformDynamics import Platform
 from Dynamics.System import System
 from MathTools.Integrator import RK4Integrator as RK4
 from DrawTools.Draw import *
+from DrawTools.DrawSystem import *
 from Game.Controls import *
 
 pg.init()
@@ -21,8 +22,9 @@ def main():
     #init platform, system, integrator, drawer, and controller
     a = Platform(200, 500, 5, 900, 500, 100, np.deg2rad(90), (200, 200, 200))
     system = System(a)
-    rka = RK4(a)
-    dad = DrawPlatform(Win, a)
+    rksystem = RK4(a)
+    da = DrawPlatform(Win, a)
+    drawsystem = DrawSystem(da)
     ctrl = UIcontroller(a)
 
     #framerate and efficiency stuff
@@ -39,13 +41,13 @@ def main():
 
         #get state, integrate, set state
         #set state also reverts changes from inputs
-        system.set_state(rka.integrate(system.get_state(), dt))
+        system.set_state(rksystem.integrate(system.get_state(), dt))
 
         if counter % max_count == 0:
             clock.tick(60)
             Win.fill((10, 40, 70))
-            dad.draw()
-            dad.draw_data()
+            drawsystem.draw()
+            drawsystem.draw_data()
             pg.display.update()
         counter += 1
 

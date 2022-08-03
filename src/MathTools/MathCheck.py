@@ -7,7 +7,11 @@ from abc import ABC, abstractmethod
 
 
 
-a = [0, 1, 2, 3]
+def yieldfct():
+    yield 1
+    yield 2
+    yield 3
 
-print(len(a))
+blah = yieldfct()
 
+blah[0]

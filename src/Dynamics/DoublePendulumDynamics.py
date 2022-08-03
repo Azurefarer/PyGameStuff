@@ -19,10 +19,14 @@ class DblPendulum:
         self.state = [theta1, theta2, 0, 0]
         self.state0 = [theta1, theta2, 0, 0]
 
+        self.I1 = m1 * l1**2
+        self.torque = 0
+
     #methods for the integrator
     def set_state(self, x):
 
         self.state = x
+        self.torque = 0
 
     def get_state(self):
 
@@ -32,13 +36,18 @@ class DblPendulum:
 
     def get_state_prime(self, x):
 
-        z = 0.03
         f1 = -(self.m2 * self.l2 * x[3]**2 * np.sin(x[0] - x[1]) + g * np.sin(x[0]) * (self.m1 + self.m2)) / ((self.m1 + self.m2) * self.l1)
         f2 = (self.l1 * x[2]**2 * np.sin(x[0] - x[1]) - g * np.sin(x[1])) / self.l2
-        alpha1 = (self.m2 * self.l2 * np.cos(x[0] - x[1])) / ((self.m1 + self.m2) * self.l1)
-        alpha2 = (self.l1 / self.l2) * np.cos(x[0] - x[1])
+        a1 = (self.m2 * self.l2 * np.cos(x[0] - x[1])) / ((self.m1 + self.m2) * self.l1)
+        a2 = (self.l1 / self.l2) * np.cos(x[0] - x[1])
 
-        x_dot = np.array([x[2], x[3], (f1 - alpha1 * f2) / (1 - alpha1 * alpha2), (f2 - alpha2 * f1) / (1 - alpha1 * alpha2)])
+        detA = 1 - a1 * a2
+        anga1 = (f1 - a1 * f2) / detA
+        anga2 = (f2 - a2 * f1) / detA
+
+        UIanga = self.torque / self.I1
+
+        x_dot = np.array([x[2], x[3], anga1 + UIanga, anga2])
 
         return x_dot
 
@@ -71,5 +80,9 @@ class DblPendulum:
     
     #method for the controller
     def impulse(self, direction):
-        pass
+        force = 1000
+        if direction == 0:
+            self.torque = force * self.l1
+        elif direction == 1:
+            self.torque = -force * self.l1
     

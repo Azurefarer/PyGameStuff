@@ -101,9 +101,7 @@ class Platform:
     #method for the controller
     def impulse(self, direction):
         force = 100000
-        if direction:
-            force = force
-        else:
-            force = force * -1
+        forces = [force * -1, force]
+
         #7500N*m for offset of 100mm
-        self.torque = force * self.rcm
+        self.torque = forces[direction] * self.rcm

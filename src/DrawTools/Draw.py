@@ -181,6 +181,7 @@ class DrawPlatform(Drawer):
         ytc = ((length - 2 * off) / 2) * np.sin(state[0])
         ybc = ((length + 2 * off) / 2) * np.sin(state[0])
 
+        #top right -> bottom right -> bottom left -> top left
         pg.draw.polygon(self.Win, self.object.color, ([axis[0] + xrc + widthx + off, axis[1] - ytc + widthy], [axis[0] + xrc - widthx + off, axis[1] - ytc - widthy], [axis[0] - xlc - widthx + off, axis[1] + ybc - widthy], [axis[0] - xlc + widthx + off, axis[1] + ybc + widthy]))
         pg.draw.circle(self.Win, (0, 0, 0), (axis[0] + off, axis[1]), 12)
 
@@ -229,3 +230,73 @@ class DrawPlatform(Drawer):
         pg.draw.lines(self.Win, (255, 255, 255), False, [(x + 150, y + 600) for x, y in enumerate(data2)], 1)
 
 
+class DrawCartPendulum(Drawer):
+
+    def __init__(self, Win, object):
+
+        self.Win = Win
+        self.object = object
+
+    def draw(self):
+
+        w = self.object.get_width()
+        l = self.object.get_lengths()
+        state = self.object.get_state()
+        color = self.object.get_color()
+
+        #pendulum position
+        x = state[1] + l[1] * np.sin(state[0])
+        y = state[2] + l[1] * np.cos(state[0])
+        #x right and left corners
+        edge = l[0] / 2
+
+        #y top and bottom corners
+        # ytc = ((l[0] - 20) / 2) * np.sin(0)
+        # ybc = ((l[0] + 20) / 2) * np.sin(0)
+
+        #top right -> bottom right -> bottom left -> top left
+        pg.draw.polygon(self.Win, color, ([state[1] + edge, state[2] + w], [state[1] + edge, state[2] - w], [state[1] - edge, state[2] - w], [state[1] - edge, state[2] + w]))
+        pg.draw.circle(self.Win, (0, 255, 0), (state[1], state[2]), 9)
+
+        pg.draw.lines(self.Win, (0, 0, 0), False, [(state[1] - 1, state[2] - 1), (x - 1, y - 1)], 2)
+        pg.draw.circle(self.Win, color, (x, y), 10)       
+
+
+    def draw_data(self):
+        pass
+
+class DrawCartPendulumInX(Drawer):
+
+    def __init__(self, Win, object):
+
+        self.Win = Win
+        self.object = object
+
+    def draw(self):
+
+        w = self.object.get_width()
+        l = self.object.get_lengths()
+        state = self.object.get_state()
+        y = self.object.get_y()
+        color = self.object.get_color()
+
+        #pendulum position
+        x = state[1] + l[1] * np.sin(state[0])
+        yp = y + l[1] * np.cos(state[0])
+        #x right and left corners
+        edge = l[0] / 2
+
+        #y top and bottom corners
+        # ytc = ((l[0] - 20) / 2) * np.sin(0)
+        # ybc = ((l[0] + 20) / 2) * np.sin(0)
+
+        #top right -> bottom right -> bottom left -> top left
+        pg.draw.polygon(self.Win, color, ([state[1] + edge, y + w], [state[1] + edge, y - w], [state[1] - edge, y - w], [state[1] - edge, y + w]))
+        pg.draw.circle(self.Win, (0, 255, 0), (state[1], y), 9)
+
+        pg.draw.lines(self.Win, (0, 0, 0), False, [(state[1] - 1, y - 1), (x - 1, yp - 1)], 2)
+        pg.draw.circle(self.Win, color, (x, yp), 10)       
+
+
+    def draw_data(self):
+        pass
