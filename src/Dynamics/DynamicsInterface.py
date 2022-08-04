@@ -1,6 +1,7 @@
 import numpy as np
 from abc import ABC, abstractmethod
 
+
 class Object(ABC):
 
     def set_state(self, x):
@@ -11,4 +12,3 @@ class Object(ABC):
 
     def get_state_prime(self, x):
         pass
-    

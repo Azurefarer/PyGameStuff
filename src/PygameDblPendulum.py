@@ -9,9 +9,8 @@ from Game.Controls import *
 
 pg.init()
 
-
-#in millimeters
-Width, Height = 1800, 1000  
+# in millimeters
+Width, Height = 1800, 1000
 Win = pg.display.set_mode((Width, Height))
 pg.display.set_caption("DoublePendulum")
 
@@ -22,7 +21,7 @@ def main():
     run = True
     clock = pg.time.Clock()
 
-    #init objects, system, integrator, drawers, system drawer, and controller
+    # init objects, system, integrator, drawers, system drawer, and controller
     ad = DblPendulum(900, 200, 200, 400, 1, 1, np.deg2rad(0), np.deg2rad(0), (200, 200, 200))
     system = System(ad)
     rksystem = RK4(ad)
@@ -32,19 +31,19 @@ def main():
 
     ctrl = UIcontroller(ad)
 
-    #framerate eand efficieny stuff
+    # framerate eand efficieny stuff
     counter = 0
-    dt = 1/100
+    dt = 1 / 100
     max_count = 50
 
     while run:
 
-        #get inputs to influence sim
+        # get inputs to influence sim
         ctrlr = ctrl.inputs()
         if ctrlr == 0:
             run = False
 
-        #entire dynamic integration process
+        # entire dynamic integration process
         system.set_state(rksystem.integrate(system.get_state(), dt))
 
         if counter % max_count == 0:

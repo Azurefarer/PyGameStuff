@@ -23,7 +23,7 @@ def main():
     clock = pg.time.Clock()
 
     #init objects, system, integrator, drawers, system drawer, and controller
-    a = CartPendulum(300, 300, 3, 1, 5, np.deg2rad(0), 900, 500, (200, 200, 200))
+    a = CartPendulum(300, 300, 3, 1, 5, np.deg2rad(0), 900, 500, .01, (200, 200, 200))
     system = System(a)
     rksystem = RK4(a)
     da = DrawCartPendulum(Win, a)
@@ -44,7 +44,7 @@ def main():
 
         #entire dynamic integration process
         system.set_state(rksystem.integrate(system.get_state(), dt))
-        #print(a.get_state())
+
         if counter % max_count == 0:
             clock.tick(60)
             Win.fill((10, 40, 70))

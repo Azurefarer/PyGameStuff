@@ -4,7 +4,7 @@ g = 9.8
 
 class CartPendulum:
 
-    def __init__(self, l1, l2, m1, m2, width, theta, x, y, color):
+    def __init__(self, l1, l2, m1, m2, width, theta, x, y, z, color):
 
         self.l1 = l1
         self.l2 = l2
@@ -12,6 +12,7 @@ class CartPendulum:
         self.m2 = m2
         self.width = width
         self.color = color
+        self.z = z
 
         self.state = [theta, x, y, 0, 0, 0]
         self.state0 = [theta, x, y, 0, 0, 0]
@@ -37,10 +38,11 @@ class CartPendulum:
     def get_state_prime(self, x):
 
         #matrix equation to solve coupled DiffEQs
+        z = self.z
         tot_mass = (self.m1 + self.m2)
-        f1 = -(g * np.sin(x[0])) / self.l2 + self.torque
-        f2 = (x[3]**2 * self.m2 * self.l2 * np.sin(x[0])) / (tot_mass) + self.forcex
-        f3 = (x[3]**2 * self.m2 * self.l2 * np.cos(x[0])) / (tot_mass) + self.forcey
+        f1 = -(g * np.sin(x[0])) / self.l2 + self.torque / self.l2 - x[3] * z
+        f2 = (x[3]**2 * self.m2 * self.l2 * np.sin(x[0])) / (tot_mass) + self.forcex / tot_mass
+        f3 = (x[3]**2 * self.m2 * self.l2 * np.cos(x[0])) / (tot_mass) + self.forcey / tot_mass
         a1 = np.cos(x[0])  / self.l2
         a2 = -np.sin(x[0])  / self.l2
         a3 = np.cos(x[0]) * self.l2 * self.m2 / (tot_mass)
@@ -77,11 +79,11 @@ class CartPendulum:
         return self.color
 
     def impulse(self, direction):
-        force = 1000
+        force = 10000
         if direction == 0:
-            self.torque = -force * self.l2 / 100000
+            self.torque = -force / 10
         elif direction == 1:
-            self.torque = force * self.l2 / 100000
+            self.torque = force / 10
         elif direction == 2:
             self.forcey = force
         elif direction == 3:

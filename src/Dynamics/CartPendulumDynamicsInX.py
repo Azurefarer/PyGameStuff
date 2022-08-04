@@ -79,9 +79,9 @@ class CartPendulumInX:
     def impulse(self, direction):
         force = 1000
         if direction == 0:
-            self.torque = -force * self.l2 / 10
+            self.torque = -force * self.l2 / 1
         elif direction == 1:
-            self.torque = force * self.l2 / 10
+            self.torque = force * self.l2 / 1
         elif direction == 4:
             self.forcex = force
         elif direction == 5:
