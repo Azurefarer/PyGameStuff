@@ -22,28 +22,28 @@ class CartPendulumInX:
 
         self.torque = 0
 
-    def set_state(self, x):
+    def set_state(self, s):
 
-        self.state = x
+        self.state = s
         self.forcex = 0
 
         self.torque = 0
 
     def get_state(self):
 
-        x = np.array(self.state)
+        s = np.array(self.state)
 
-        return x
+        return s
 
-    def get_state_prime(self, x):
+    def get_state_prime(self, s):
 
         #matrix equation to solve coupled DiffEQs
         tot_mass = (self.m1 + self.m2)
-        f1 = -(g * np.sin(x[0])) / self.l2
-        f2 = (x[2]**2 * self.m2 * self.l2 * np.sin(x[0])) / (tot_mass) + self.forcex
+        f1 = -(g * np.sin(s[0])) / self.l2
+        f2 = (s[2]**2 * self.m2 * self.l2 * np.sin(s[0])) / (tot_mass) + self.forcex
 
-        a1 = np.cos(x[0])  / self.l2
-        a2 = np.cos(x[0]) * self.l2 * self.m2 / (tot_mass)
+        a1 = np.cos(s[0])  / self.l2
+        a2 = np.cos(s[0]) * self.l2 * self.m2 / (tot_mass)
 
         detA = 1 - (a1 * a2)
 
@@ -51,12 +51,11 @@ class CartPendulumInX:
         ax = (f2 - (f1 * a2)) / detA
         
         UIanga = self.torque / self.I
-        UIax = self.forcex / self.m1
-        #print(theta_double_dot)
 
-        x_dot = np.array([x[2], x[3], anga + UIanga, ax])
 
-        return x_dot
+        s_dot = np.array([s[2], s[3], anga + UIanga, ax])
+
+        return s_dot
     
     def get_state_size(self):
         return 4

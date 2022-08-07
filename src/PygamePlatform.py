@@ -1,6 +1,8 @@
 import pygame as pg
 import numpy as np
+from sympy import blockcut
 from Dynamics.PlatformDynamics import Platform
+from Dynamics.BlockDynamics import Block
 from Dynamics.System import System
 from MathTools.Integrator import RK4Integrator as RK4
 from DrawTools.Draw import *
@@ -20,12 +22,14 @@ def main():
     clock = pg.time.Clock()
 
     #init platform, system, integrator, drawer, and controller
-    a = Platform(200, 500, 5, 900, 500, 100, np.deg2rad(90), (200, 200, 200))
-    system = System(a)
-    rksystem = RK4(a)
+    a = Platform(200, 500, 5, 900, 500, 0, np.deg2rad(0), (200, 200, 200))
+    block = Block(1, 20, 30, 800, 400, (165, 89, 54))
+    system = System(a, block)
+    rksystem = RK4(system)
     da = DrawPlatform(Win, a)
-    drawsystem = DrawSystem(da)
-    ctrl = UIcontroller(a)
+    dblock = DrawBlock(Win, block)
+    drawsystem = DrawSystem(da, dblock)
+    ctrl = UIcontroller(a, block)
 
     #framerate and efficiency stuff
     dt = 1/100

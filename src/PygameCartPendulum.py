@@ -23,12 +23,12 @@ def main():
     clock = pg.time.Clock()
 
     #init objects, system, integrator, drawers, system drawer, and controller
-    a = CartPendulum(300, 300, 3, 1, 5, np.deg2rad(0), 900, 500, .01, (200, 200, 200))
-    system = System(a)
-    rksystem = RK4(a)
-    da = DrawCartPendulum(Win, a)
-    drawsystem = DrawSystem(da)
-    ctrl = UIcontroller(a)
+    cart_p1 = CartPendulum(300, 300, 3, 1, 5, np.deg2rad(0), 900, 500, .01, (200, 200, 200))
+    system = System(cart_p1)
+    rksystem = RK4(cart_p1)
+    dcart_p1 = DrawCartPendulum(Win, cart_p1)
+    drawsystem = DrawSystem(dcart_p1)
+    ctrl = UIcontroller(cart_p1)
 
     #framerate and efficieny stuff
     dt = 1/100

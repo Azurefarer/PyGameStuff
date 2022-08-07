@@ -23,24 +23,24 @@ class DblPendulum:
         self.torque = 0
 
     # methods for the integrator
-    def set_state(self, x):
+    def set_state(self, s):
 
-        self.state = x
+        self.state = s
         self.torque = 0
 
     def get_state(self):
 
-        x = np.array(self.state)
+        s = np.array(self.state)
 
-        return x
+        return s
 
-    def get_state_prime(self, x):
+    def get_state_prime(self, s):
         
         z = .01
-        f1 = -((self.m2 * self.l2 * x[3] ** 2 * np.sin(x[0] - x[1]) + g * np.sin(x[0]) * (self.m1 + self.m2)) / ((self.m1 + self.m2) * self.l1)) - x[1] * z
-        f2 = ((self.l1 * x[2] ** 2 * np.sin(x[0] - x[1]) - g * np.sin(x[1])) / self.l2) - x[2] * z
-        a1 = (self.m2 * self.l2 * np.cos(x[0] - x[1])) / ((self.m1 + self.m2) * self.l1)
-        a2 = (self.l1 / self.l2) * np.cos(x[0] - x[1])
+        f1 = -((self.m2 * self.l2 * s[3] ** 2 * np.sin(s[0] - s[1]) + g * np.sin(s[0]) * (self.m1 + self.m2)) / ((self.m1 + self.m2) * self.l1)) - s[1] * z
+        f2 = ((self.l1 * s[2] ** 2 * np.sin(s[0] - s[1]) - g * np.sin(s[1])) / self.l2) - s[2] * z
+        a1 = (self.m2 * self.l2 * np.cos(s[0] - s[1])) / ((self.m1 + self.m2) * self.l1)
+        a2 = (self.l1 / self.l2) * np.cos(s[0] - s[1])
 
         detA = 1 - a1 * a2
         anga1 = (f1 - a1 * f2) / detA
@@ -48,12 +48,12 @@ class DblPendulum:
 
         UIanga = self.torque / self.I1
 
-        x_dot = np.array([x[2], x[3], anga1 + UIanga, anga2])
+        s_dot = np.array([s[2], s[3], anga1 + UIanga, anga2])
 
-        return x_dot
+        return s_dot
 
     # inspector methods for drawing
-    def get_energy(self, x):
+    def get_energy(self, s):
 
         E0 = ((.5 * (self.m1 * (self.l1 * self.state0[2]) ** 2 + self.m2 * (
                     (self.l1 * self.state0[2]) ** 2 + (self.l2 * self.state0[3]) ** 2 + 2 * self.l1 * self.l2 *
@@ -61,10 +61,10 @@ class DblPendulum:
                - g * ((self.m1 + self.m2) * self.l1 * np.cos(self.state0[0]) + self.m2 * self.l2 * np.cos(
                     self.state0[1]))))
 
-        E = ((.5 * (self.m1 * (self.l1 * x[2]) ** 2 + self.m2 * (
-                    (self.l1 * x[2]) ** 2 + (self.l2 * x[3]) ** 2 + 2 * self.l1 * self.l2 * x[2] * x[3] * np.cos(
-                x[0] - x[1])))
-              - g * ((self.m1 + self.m2) * self.l1 * np.cos(x[0]) + self.m2 * self.l2 * np.cos(x[1]))))
+        E = ((.5 * (self.m1 * (self.l1 * s[2]) ** 2 + self.m2 * (
+                    (self.l1 * s[2]) ** 2 + (self.l2 * s[3]) ** 2 + 2 * self.l1 * self.l2 * s[2] * s[3] * np.cos(
+                s[0] - s[1])))
+              - g * ((self.m1 + self.m2) * self.l1 * np.cos(s[0]) + self.m2 * self.l2 * np.cos(s[1]))))
 
         return E, E0
 

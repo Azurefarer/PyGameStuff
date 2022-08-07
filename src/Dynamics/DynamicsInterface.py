@@ -1,14 +1,17 @@
 import numpy as np
-from abc import ABC, abstractmethod
 
 
-class Object(ABC):
+class dynamics:
 
-    def set_state(self, x):
-        pass
+    def set_state(self, s):
+        self.state = s
 
     def get_state(self):
-        pass
+        s = np.array(self.state)
 
-    def get_state_prime(self, x):
-        pass
+        return s
+
+    def get_state_prime(self, s):
+        s_dot = np.array([])
+
+        return s_dot

@@ -1,39 +1,39 @@
 import numpy as np
-from Dynamics.DynamicsInterface import Object
 
-class System(Object):
+
+class System:
 
     def __init__(self, *args):
         
         self.args = args
 
-    def set_state(self, x):
+    def set_state(self, s):
         
         j = 0
         for object in self.args:
-            object.set_state(x[j:j + object.get_state_size()])
+            object.set_state(s[j:j + object.get_state_size()])
             j += object.get_state_size()
         
 
     def get_state(self):
-        x = []
+        s = []
         for object in self.args:
             for j in range(object.get_state_size()):
-                x.append(object.get_state()[j])
-        return np.array(x)
+                s.append(object.get_state()[j])
+        return np.array(s)
 
 
-    def get_state_prime(self, x):
+    def get_state_prime(self, s):
         k = 0
-        x_dot = np.array([])
+        s_dot = np.array([])
         for object in self.args:
 
-            state_slice = x[k:k + object.get_state_size()]
+            state_slice = s[k:k + object.get_state_size()]
             object_state = object.get_state_prime(state_slice)
-            x_dot = np.concatenate((x_dot, object_state))
+            s_dot = np.concatenate((s_dot, object_state))
             k += object.get_state_size()
 
-        return np.array(x_dot)
+        return np.array(s_dot)
 
 
     def get_state_size(self):

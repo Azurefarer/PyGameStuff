@@ -17,26 +17,26 @@ class Pendulum:
         self.state0 = [theta, 0]
 
     # methods for the integrator
-    def set_state(self, x):
-        self.state = x
+    def set_state(self, s):
+        self.state = s
 
     def get_state(self):
-        x = np.array(self.state)
+        s = np.array(self.state)
 
-        return x
+        return s
 
-    def get_state_prime(self, x):
+    def get_state_prime(self, s):
         z = self.z
         w = np.sqrt(g / self.l)
-        x_dot = np.array([x[1], -(w ** 2) * np.sin(x[0]) - 2 * z * w * x[1]])
+        s_dot = np.array([s[1], -(w ** 2) * np.sin(s[0]) - 2 * z * w * s[1]])
 
-        return x_dot
+        return s_dot
 
     # inspector methods for drawing
-    def get_energy(self, x):
+    def get_energy(self, s):
         E0 = .5 * self.m * (self.state0[1] * self.l) ** 2 - g * self.m * self.l * np.cos(self.state0[0])
 
-        E = .5 * self.m * (x[1] * self.l) ** 2 - g * self.m * self.l * np.cos(x[0])
+        E = .5 * self.m * (s[1] * self.l) ** 2 - g * self.m * self.l * np.cos(s[0])
 
         return E, E0
 

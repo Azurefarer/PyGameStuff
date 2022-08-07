@@ -24,7 +24,7 @@ class Block:
         return s
 
     def get_state_prime(self, s):
-        s_dot = np.array([s[2], s[3], 0, g])
+        s_dot = np.array([s[2], s[3], 0, g * np.sin(s[1] - 100 + self.state0[1])])
 
         return s_dot
 

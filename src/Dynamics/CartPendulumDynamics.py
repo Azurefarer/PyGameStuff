@@ -22,46 +22,40 @@ class CartPendulum:
         self.forcey = 0
         self.torque = 0
 
-    def set_state(self, x):
+    def set_state(self, s):
 
-        self.state = x
+        self.state = s
         self.forcex = 0
         self.forcey = 0
         self.torque = 0
 
     def get_state(self):
 
-        x = np.array(self.state)
+        s = np.array(self.state)
 
-        return x
+        return s
 
-    def get_state_prime(self, x):
+    def get_state_prime(self, s):
 
         #matrix equation to solve coupled DiffEQs
         z = self.z
         tot_mass = (self.m1 + self.m2)
-        f1 = -(g * np.sin(x[0])) / self.l2 + self.torque / self.l2 - x[3] * z
-        f2 = (x[3]**2 * self.m2 * self.l2 * np.sin(x[0])) / (tot_mass) + self.forcex / tot_mass
-        f3 = (x[3]**2 * self.m2 * self.l2 * np.cos(x[0])) / (tot_mass) + self.forcey / tot_mass
-        a1 = np.cos(x[0])  / self.l2
-        a2 = -np.sin(x[0])  / self.l2
-        a3 = np.cos(x[0]) * self.l2 * self.m2 / (tot_mass)
-        a4 = -np.sin(x[0]) * self.l2 * self.m2 / (tot_mass)
+        f1 = -(g * np.sin(s[0])) / self.l2 + self.torque / self.l2 - s[3] * z
+        f2 = (s[3]**2 * self.m2 * self.l2 * np.sin(s[0])) / (tot_mass) + self.forcex / tot_mass
+        f3 = (s[3]**2 * self.m2 * self.l2 * np.cos(s[0])) / (tot_mass) + self.forcey / tot_mass
+        a1 = np.cos(s[0])  / self.l2
+        a2 = -np.sin(s[0])  / self.l2
+        a3 = np.cos(s[0]) * self.l2 * self.m2 / (tot_mass)
+        a4 = -np.sin(s[0]) * self.l2 * self.m2 / (tot_mass)
         detA = 1 - (a1 * a3) - (a2 * a4)
 
         anga = (f1 - (f2 * a1) - (f3 * a2)) / detA
         ax = (-(f1 * a3) + (f2 * (1 - (a2 * a4))) + (f3 * a2 * a3)) / detA
         ay = (-(f1 * a4) + (f2 * a1 * a4) + (f3 * (1 - (a1 * a3)))) / detA
 
-        UIanga = self.torque / self.I
-        UIax = self.forcex / self.m1
-        UIay = self.forcey / self.m1
-        #print(y_double_dot)
-        #print(theta_double_dot)
+        s_dot = np.array([s[3], s[4], s[5], anga, ax, ay])
 
-        x_dot = np.array([x[3], x[4], x[5], anga, ax, ay])
-
-        return x_dot
+        return s_dot
     
     def get_state_size(self):
         return 6
