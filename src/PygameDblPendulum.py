@@ -9,20 +9,17 @@ from Game.Controls import *
 
 pg.init()
 
-# in millimeters
-Width, Height = 1800, 1000
-Win = pg.display.set_mode((Width, Height))
-pg.display.set_caption("DoublePendulum")
+
 
 g = 9.8
 
 
-def main():
+def main(Win):
     run = True
     clock = pg.time.Clock()
 
     # init objects, system, integrator, drawers, system drawer, and controller
-    ad = DblPendulum(900, 200, 200, 400, 1, 1, np.deg2rad(0), np.deg2rad(0), (200, 200, 200))
+    ad = DblPendulum(900, 200, 300, 400, 1, 1, np.deg2rad(120), np.deg2rad(60), (200, 200, 200))
     system = System(ad)
     rksystem = RK4(ad)
 
@@ -58,4 +55,3 @@ def main():
     pg.quit()
 
 
-main()

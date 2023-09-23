@@ -36,7 +36,7 @@ class DblPendulum:
 
     def get_state_prime(self, s):
         
-        z = .01
+        z = 0
         f1 = -((self.m2 * self.l2 * s[3] ** 2 * np.sin(s[0] - s[1]) + g * np.sin(s[0]) * (self.m1 + self.m2)) / ((self.m1 + self.m2) * self.l1)) - s[1] * z
         f2 = ((self.l1 * s[2] ** 2 * np.sin(s[0] - s[1]) - g * np.sin(s[1])) / self.l2) - s[2] * z
         a1 = (self.m2 * self.l2 * np.cos(s[0] - s[1])) / ((self.m1 + self.m2) * self.l1)

@@ -57,9 +57,6 @@ class PendulumDraw(Drawer):
         #pairing index values with the list values in a new list
         pg.draw.lines(self.Win, (255, 255, 255), False, [(x + 150, y) for x, y in enumerate(data)], 1)
 
-
-
-
 class DblPendulumDraw(Drawer):
 
     def __init__(self, Win, object):
@@ -92,7 +89,6 @@ class DblPendulumDraw(Drawer):
         pg.draw.lines(self.Win, color, False, [(x1, y1), (x2, y2)], 2)
         pg.draw.circle(self.Win, color, (x2, y2), 20)     
 
-
     def draw_data(self):
 
         state = self.object.get_state()
@@ -110,8 +106,6 @@ class DblPendulumDraw(Drawer):
 
         #pairing index values with the list values in a new list
         pg.draw.lines(self.Win, (255, 255, 255), False, [(x + 150, y) for x, y in enumerate(data)], 1)
-
-
 
 class DrawBlock(Drawer):
 
@@ -229,7 +223,6 @@ class DrawPlatform(Drawer):
         pg.draw.line(self.Win, (0, 0, 0), (0, 600), (1800, 600), 1)
         pg.draw.lines(self.Win, (255, 255, 255), False, [(x + 150, y + 600) for x, y in enumerate(data2)], 1)
 
-
 class DrawCartPendulum(Drawer):
 
     def __init__(self, Win, object):
@@ -260,7 +253,6 @@ class DrawCartPendulum(Drawer):
 
         pg.draw.lines(self.Win, (0, 0, 0), False, [(state[1] - 1, state[2] - 1), (x - 1, y - 1)], 2)
         pg.draw.circle(self.Win, color, (x, y), 10)       
-
 
     def draw_data(self):
         pass
@@ -300,3 +292,4 @@ class DrawCartPendulumInX(Drawer):
 
     def draw_data(self):
         pass
+    

@@ -26,7 +26,7 @@ def main():
     clock = pg.time.Clock()
 
     #init objects, system, integrator, drawers, system drawer, and controller
-    a = Pendulum(900, 300, 400, 1, np.deg2rad(90), (100, 200, 0))
+    a = Pendulum(900, 300, 400, 1, np.deg2rad(90), 0, (100, 200, 0))
     b = Block(1, 5, 5, 600, 0, (80, 75, 230))
     c = Platform(20, 300, 5, 300, 600, 70, np.deg2rad(0), (100, 100, 100))
     d = DblPendulum(900, 500, 200, 300, 1000, 10, np.deg2rad(180.1), np.deg2rad(180), (200, 200, 200))

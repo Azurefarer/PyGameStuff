@@ -23,9 +23,9 @@ def main():
     clock = pg.time.Clock()
 
     #init objects, system, integrator, drawers, system drawer, and controller
-    a = Pendulum(300, 300, 400, 1, np.deg2rad(90), .01, (np.random.randint(0, 255), np.random.randint(0, 255), np.random.randint(0, 255)))
+    a = Pendulum(500, 300, 200, 1, np.deg2rad(90), .01, (np.random.randint(0, 255), np.random.randint(0, 255), np.random.randint(0, 255)))
     b = Pendulum(900, 500, 500, 1, np.deg2rad(90), np.sqrt(g / 500), (np.random.randint(0, 255), np.random.randint(0, 255), np.random.randint(0, 255)))
-    c = Pendulum(1500, 300, 400, 1, np.deg2rad(90), .5, (np.random.randint(0, 255), np.random.randint(0, 255), np.random.randint(0, 255)))
+    c = Pendulum(1300, 300, 350, 1, np.deg2rad(90), 0, (np.random.randint(0, 255), np.random.randint(0, 255), np.random.randint(0, 255)))
     system = System(a, b, c)
 
     rksystem = RK4(system)
@@ -40,7 +40,7 @@ def main():
     #frame rate and efficiency stuff
     counter = 0
     max_count = 50
-    dt = 1/100
+    dt = 1/500
 
     while run:
 
